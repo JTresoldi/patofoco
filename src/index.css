@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Nunito+Sans:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-display: "DynaPuff", system-ui, sans-serif;
+  --font-sans: "Nunito Sans", system-ui, sans-serif;
+}
+body {
+    font-family: var(--font-display);
+    color: #5A432C;
+}
+
+h1 {
+    color: #6B563B;
+}
