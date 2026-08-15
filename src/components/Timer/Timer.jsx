@@ -1,15 +1,16 @@
 import { useEffect, useRef } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import duckWalking from "../../assets/walking/duck-walking.gif";
-import duckStatic from "../../assets/walking/duck-static.png";
-import duckSleeping from "../../assets/sleeping/sleeping-duck.gif";
+import duckWalking from "../../assets/duck/walking/duck-walking.gif";
+import duckStatic from "../../assets/duck/walking/duck-static.png";
+import duckSleeping from "../../assets/duck/sleeping/sleeping-duck.gif";
 
 
 export function Timer({ mode, totalTime, timeLeft, isRunning, onTimeChange, onFinish }) {
-    const percentage = (timeLeft / totalTime) * 100;
-    const angle = (percentage / 100) * -360 - 90;
+    const percentage = ((totalTime - timeLeft) / totalTime) * 100;
+    const angle = (percentage / 100) * 360 - 90;
     const hasFinished = useRef(false);
+    const shouldFollowProgress = mode === "pomodoro";
 
     useEffect(() => {
         if (!isRunning) return;
@@ -55,6 +56,14 @@ export function Timer({ mode, totalTime, timeLeft, isRunning, onTimeChange, onFi
     const duckX = center + radius * Math.cos(angleInRadians);
     const duckY = center + radius * Math.sin(angleInRadians);
 
+    const startAngle = -90;
+    const startAngleRadians = (startAngle * Math.PI) / 180;
+    const startDuckX = center + radius * Math.cos(startAngleRadians);
+    const startDuckY = center + radius * Math.sin(startAngleRadians);
+
+    const movingRight = -Math.sin(angleInRadians) > 0;
+    const duckScaleX = movingRight ? 1 : -1;
+
     const modeImages = {
         pomodoro: {
             running: duckWalking,
@@ -78,7 +87,6 @@ export function Timer({ mode, totalTime, timeLeft, isRunning, onTimeChange, onFi
                 value={percentage} 
                 text={formatTime(timeLeft)}
                 strokeWidth={6}
-                counterClockwise
                 styles={buildStyles({
                     pathColor: "#F8C75A",
                     textColor: "#6B563B",
@@ -91,9 +99,9 @@ export function Timer({ mode, totalTime, timeLeft, isRunning, onTimeChange, onFi
                 alt="patinho parado" 
                 className="h-15 w-15 absolute transition-all duration-500"
                 style={{
-                left: `${duckX}px`,
-                top: `${duckY}px`,
-                transform: "translate(-50%, -50%)"
+                left: shouldFollowProgress ? `${duckX}px` : `${startDuckX}px`,
+                top: shouldFollowProgress ? `${duckY}px` : `${startDuckY}px`,
+                transform: `translate(-50%, -50%) scaleX(${duckScaleX})`
                 }}
             />
         </div>

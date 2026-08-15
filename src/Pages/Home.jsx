@@ -4,8 +4,8 @@ import { Card } from "../components/Cards/Card";
 import { Button } from "../components/Buttons/Button";
 import { SwitchButton } from "../components/Buttons/SwitchButton";
 import { Timer } from "../components/Timer/Timer";
-import hiDuck from "../assets/hi-duck/hi-duck.gif";
-import egg from "../assets/egg/egg.gif";
+import hiDuck from "../assets/duck/hi-duck/hi-duck.gif";
+import egg from "../assets/duck/egg/egg.gif";
 
 const options = [
     {value: "pomodoro", label: "pomodoro", icon: FaClock },
@@ -15,7 +15,7 @@ const options = [
 
 const timerModes = {
     // pomodoro: 1 * 60,
-    pomodoro: 4,
+    pomodoro: 60,
     short: 5 * 60,
     long: 15 * 60,
 }
